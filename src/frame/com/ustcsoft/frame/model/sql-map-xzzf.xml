@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="xzzf">
+	<typeAlias alias="RyRyVO" type="com.ustcsoft.frame.model.RyRyVO"/>
+	
+	
+	<select id="countRyRyByZfrybh" parameterClass="RyRyVO" resultClass="java.lang.Long">
+	SELECT count(1) from RY_RY where ZFRYBH = #zfrybh:VARGRAPHIC#
+	</select>
+	
+	<insert id="insertIntoRyRy" parameterClass="RyRyVO">
+	insert into RY_RY
+    (
+      	ZFRYBH,
+		XM,
+		XBBH,
+		SFZH,
+		CSRQ,
+		MZBH,
+		XL,
+		CJGZRQ,
+		CSZFRQ,
+		GWBH,
+		ZWBH,
+		ZFMLBH,
+		DEPTID,
+		ZFZH,
+		FZRQ,
+		DJR,
+		DJRQ,
+		BZ,
+		CREATE_DATE,
+		RYPIC,
+		FZZT,
+		DEPTSP,
+		ZFQY,
+		BYXX,
+		BYZY,
+		BYZSBH,
+		FPQD,
+		SNZFZH,
+		XYBJZFZH,
+		ZJZT,
+		GWZSBH,
+		CAN_BE_SYNC
+	) values (
+		#zfrybh:VARGRAPHIC#,
+		#xm:VARGRAPHIC#,
+		#xbbh:VARGRAPHIC#,
+		#sfzh:VARGRAPHIC#,
+		#csrq:VARGRAPHIC#,
+		#mzbh:VARGRAPHIC#,
+		#xl:VARGRAPHIC#,
+		#cjgzrq:VARGRAPHIC#,
+		#cszfrq:VARGRAPHIC#,
+		#gwbh:VARGRAPHIC#,
+		#zwbh:VARGRAPHIC#,
+		#zfmlbh:VARGRAPHIC#,
+		#deptid:VARGRAPHIC#,
+		#zfzh:VARGRAPHIC#,
+		#fzrq:VARGRAPHIC#,
+		#djr:VARGRAPHIC#,
+		#djrq:VARGRAPHIC#,
+		#bz:VARGRAPHIC#,
+		#createDate:TIMESTAMP#,
+		#rypic:VARGRAPHIC#,
+		#fzzt:VARGRAPHIC#,
+		#deptsp:VARGRAPHIC#,
+		#zfqy:VARGRAPHIC#,
+		#byxx:VARGRAPHIC#,
+		#byzy:VARGRAPHIC#,
+		#byzsbh:VARGRAPHIC#,
+		#fpqd:CHAR#,
+		#snzfzh:VARGRAPHIC#,
+		#xybjzfzh:VARGRAPHIC#,
+		#zjzt:CHAR#,
+		#gwzsbh:VARGRAPHIC#,
+		'2'
+	)
+	</insert>
+	
+	<update id="updateRyRy" parameterClass="RyRyVO">
+	UPDATE RY_RY
+	SET
+		XM = #xm:VARGRAPHIC#,
+		XBBH = #xbbh:VARGRAPHIC#,
+		SFZH = #sfzh:VARGRAPHIC#,
+		CSRQ = #csrq:VARGRAPHIC#,
+		MZBH = #mzbh:VARGRAPHIC#,
+		XL = #xl:VARGRAPHIC#,
+		CJGZRQ = #cjgzrq:VARGRAPHIC#,
+		CSZFRQ = #cszfrq:VARGRAPHIC#,
+		GWBH = #gwbh:VARGRAPHIC#,
+		ZWBH = #zwbh:VARGRAPHIC#,
+		ZFMLBH = #zfmlbh:VARGRAPHIC#,
+		DEPTID = #deptid:VARGRAPHIC#,
+		ZFZH = #zfzh:VARGRAPHIC#,
+		FZRQ = #fzrq:VARGRAPHIC#,
+		DJR = #djr:VARGRAPHIC#,
+		DJRQ = #djrq:VARGRAPHIC#,
+		BZ = #bz:VARGRAPHIC#,
+		CREATE_DATE = #createDate:TIMESTAMP#,
+		RYPIC = #rypic:VARGRAPHIC#,
+		FZZT = #fzzt:VARGRAPHIC#,
+		DEPTSP = #deptsp:VARGRAPHIC#,
+		ZFQY = #zfqy:VARGRAPHIC#,
+		BYXX = #byxx:VARGRAPHIC#,
+		BYZY = #byzy:VARGRAPHIC#,
+		BYZSBH = #byzsbh:VARGRAPHIC#,
+		FPQD = #fpqd:CHAR#,
+		SNZFZH = #snzfzh:VARGRAPHIC#,
+		XYBJZFZH = #xybjzfzh:VARGRAPHIC#,
+		ZJZT = #zjzt:CHAR#,
+		GWZSBH = #gwzsbh:VARGRAPHIC#,
+		CAN_BE_SYNC = '3'
+	WHERE ZFRYBH = #zfrybh:VARGRAPHIC#
+	</update>
+	
+	<update id="deleteRyRy" parameterClass="RyRyVO">
+		update RY_RY set SCBH = #scbh#,CAN_BE_SYNC = '2' WHERE ZFRYBH = #zfrybh:VARGRAPHIC#
+	</update>
+		
+</sqlMap>

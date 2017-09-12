@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx.xsd 
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<bean id="propertiesConfigure"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/jdbc.properties</value>
+				<value>classpath:/sysconfig.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dataSource01" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass">
+			<value>${jdbc01.driverClassName}</value>
+		</property>
+		<property name="jdbcUrl" > 
+			<value>${jdbc01.url}</value>
+		</property>
+		<property name="user" >
+			<value>${jdbc01.username}</value>
+		</property>
+		<property name="password" > 
+			<value>${jdbc01.password}</value>
+		</property>
+		<property name="acquireIncrement" value="10" />
+		<property name="maxIdleTime" value="600" />
+		<property name="checkoutTimeout" value="10000" />
+	</bean>
+	
+	<!-- lob数据支持 -->
+	<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
+	
+	<!-- 数据源 -->
+	<bean id="sqlMapClient01" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="dataSource" ref="dataSource01" />
+		<property name="configLocation">
+			<value>classpath:sql-map-config-source.xml</value>
+		</property>
+		<property name="lobHandler" ref="lobHandler" />
+	</bean>
+	
+	
+	<!-- 配置事务工厂bean -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dataSource01" />
+		</property>
+	</bean>
+	<!-- GZZ 2015-11-30 日志文件 -->
+	<tx:annotation-driven  transaction-manager="transactionManager" />
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" rollback-for="java.lang.Exception" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	
+	
+	<!-- *********************************************************************************
+		AOP日志配置
+		************************************************************************************** -->
+	<!-- 自动日志的控制类  -->
+	<bean id="methodInterceptor" class="com.ustcsoft.framework.util.log.LogMethodInterceptor"></bean>
+	<bean id="logBefore" class="com.ustcsoft.framework.util.log.LogMethodBeforeAdvice"></bean>
+	<bean id="logAfter" class="com.ustcsoft.framework.util.log.LogMethodAfterAdvice"></bean>
+	<bean id="afterThrowing" class="com.ustcsoft.framework.util.log.LogExceptionAdvice"></bean>
+	<!-- 自动日志配置信息 -->
+	<aop:config> 
+		<!-- 自动日志过滤切面 -->
+		<aop:pointcut id="logOperation" expression="execution(* com.ustcsoft..*service.impl..*.*(..))" />
+		<!-- 回滚类匹配 -->
+		<aop:pointcut expression="execution(* com.ustcsoft..*service.impl..*.*(..))"  id="service" />
+
+		
+		<!-- 自动日志过滤配置   -->
+		<!-- 目前只记录异常日志，所以方法前、方法中、方法后都屏蔽，
+			<aop:advisor pointcut-ref="logOperation" advice-ref="logBefore"/>
+			<aop:advisor pointcut-ref="logOperation" advice-ref="methodInterceptor"/>
+			<aop:advisor pointcut-ref="logOperation" advice-ref="logAfter"/>
+			 -->
+		<aop:advisor pointcut-ref="logOperation" advice-ref="afterThrowing"/>
+		
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="service" />
+		
+	</aop:config>
+	
+	<import resource="framework/applicationContext.xml" />
+	
+	<import resource="xzzf/applicationContext.xml" />
+	
+	<!-- 定时任务 -->
+	<import resource="taskJob.xml" />
+</beans>

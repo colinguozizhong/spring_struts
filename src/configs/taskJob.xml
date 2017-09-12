@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	<!-- 调用基本的类执行 -->
+	<bean name="scheduleLaw2Xzzf" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.ustcsoft.frame.action.law2xzzfAction" />
+	</bean>
+	
+	
+	<!-- JOB定义 -->
+	
+	<bean id="cronLaw2Xzzf" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="scheduleLaw2Xzzf" />
+		<!-- 每隔30分钟执行一次调度 -->
+		 <property name="cronExpression" value="0 0/30 * * * ?" />
+	</bean>
+	
+	
+	<!-- 定时任务工厂 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!-- <ref bean="cronLaw2Xzzf"/> -->
+			</list>
+		</property>
+		<property name="autoStartup" value="true"/>
+	</bean>
+</beans>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="spring_struts">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/framework"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/configs"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/frame"/>
+        <property name="java-output-path" value="/spring_struts/build/classes"/>
+        <property name="context-root" value="spring_struts"/>
+    </wb-module>
+</project-modules>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC   
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"   
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="xzzf" extends="sys-default" namespace="/xzzf">
+		<action name="testAction" class="law2xzzfAction" method="testAction">
+        </action>
+        
+        <action name="testActionJsp" class="law2xzzfAction" method="testActionJsp">
+        	<result name="success">/pages/testJsp.jsp</result>
+        </action>
+	</package>
+</struts>
